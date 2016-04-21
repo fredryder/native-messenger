@@ -174,4 +174,12 @@ module.exports = StyleSheet.create({
     borderRadius: 8,
     color: 'white'
   },
+  rowContainer: {
+    padding: 10,
+  },
+  footerContainer: {
+    backgroundColor: '#E3E3E3',
+    alignItems: 'center',
+    flexDirection: 'row'
+  }
 });

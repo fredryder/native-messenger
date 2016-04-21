@@ -37,18 +37,17 @@ class Main extends React.Component{
     .then((res) => {
       //if user not found...
       //for now: if no data returned
-      if (!!res) {
+      if (!res) {
         this.setState({
           error: 'No data returned from Firebase',
           isLoading: false
-
         })
       } else {
         console.log('Firebase response:', res);
         this.props.navigator.push({
           title: 'Messages',
           component: Messenger,
-          passProps: { messages: res }
+          passProps: { userInfo: res }
         })
         this.setState({
           isLoading: false,
