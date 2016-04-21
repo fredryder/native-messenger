@@ -1,5 +1,6 @@
 var React = require('react-native');
 var styles = require('./styles');
+var api = require('../utils/api');
 
 var {
   View,
@@ -25,13 +26,37 @@ class Main extends React.Component{
     });
   }
   handleSubmit(){
-    // update our indicatorIOS spinner
     this.setState({
-      isLoading: true
+      isLoading: true // spinner
     });
-    console.log('Chat', this.state.username);
+    //console.log('Chat button / username:', this.state.username);
     // fetch data from Firebase
     // reroute us, passing in Firebase message data
+
+    api.getMessages(this.state.username)
+    .then((res) => {
+      //if user not found...
+      //for now: if no data returned
+      if (!!res) {
+        this.setState({
+          error: 'No data returned from Firebase',
+          isLoading: false
+
+        })
+      } else {
+        console.log('Firebase response:', res);
+        this.props.navigator.push({
+          title: 'Messages',
+          component: Messenger,
+          passProps: { messages: res }
+        })
+        this.setState({
+          isLoading: false,
+          error: false,
+          username: ''
+        })
+      }
+    });
   }
   render(){
     return (
