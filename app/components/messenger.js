@@ -1,6 +1,7 @@
 var React = require('react-native');
 var styles = require('./styles');
 var api = require('../utils/api');
+var Firebase = require("firebase");
 
 var {
   View,
@@ -29,8 +30,11 @@ class Messenger extends React.Component {
     });
   }
   handleSubmit(){
+    //var db = Firebase... not working.
+    //var db = new Firebase(`https://native-messenger.firebaseio.com/${username}.json`); 
+
     var message = this.state.message;
-    console.log('state.message: ', this.state.message);
+    //console.log('state.message: ', this.state.message);
     this.setState({
       message: ''
     });
@@ -38,7 +42,7 @@ class Messenger extends React.Component {
       .then((data) => {
         api.getMessages(this.props.userInfo)
           .then((data) => {
-            console.log('in handle submit / data: ', data);
+            //console.log('in handle submit / data: ', data);
             this.setState({
               dataSource: this.ds.cloneWithRows(data)
             })
@@ -56,7 +60,8 @@ class Messenger extends React.Component {
           style={styles.searchInput}
           value={this.state.message}
           onChange={this.handleChange.bind(this)}
-          placeholder="New message" />
+          placeholder="New message"
+          placeholderTextColor="#b6b6b6" />
         <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
@@ -72,7 +77,8 @@ class Messenger extends React.Component {
         <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text style={styles.messageText}>{rowData}</Text>} />
+            renderRow={(rowData) => <Text style={styles.messageText}>{rowData}</Text>}
+            enableEmptySections={true} />
           {this.footer()}
         </View>
       </View>
@@ -82,7 +88,7 @@ class Messenger extends React.Component {
 
 Messenger.propTypes = {
   userInfo: React.PropTypes.string.isRequired,
-  messages: React.PropTypes.object.isRequired
+  messages: React.PropTypes.string.isRequired
 };
 
 module.exports = Messenger;

@@ -166,13 +166,13 @@ module.exports = StyleSheet.create({
   /*-- Messenger Styles --*/
   searchInput: {
     height: 50,
-    padding: 4,
+    padding: 12,
     marginRight: 5,
     fontSize: 23,
     borderWidth: 1,
     borderColor: 'white',
     borderRadius: 8,
-    color: 'white'
+    color: 'white',
   },
   rowContainer: {
     padding: 10,

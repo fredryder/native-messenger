@@ -2,6 +2,7 @@ var React = require('react-native');
 var styles = require('./styles');
 var api = require('../utils/api');
 var Messenger = require('./messenger');
+var Firebase = require("firebase");
 
 var {
   View,
