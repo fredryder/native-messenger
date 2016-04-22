@@ -1,7 +1,7 @@
 var React = require('react-native');
 var styles = require('./styles');
 var api = require('../utils/api');
-var Firebase = require("firebase");
+var Firebase = require('firebase');
 
 var {
   View,
@@ -15,14 +15,15 @@ var {
 
 class Messenger extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}); // true/false
     console.log('props.messages: ', this.props.messages);
     this.state = {
       dataSource: this.ds.cloneWithRows(this.props.messages),
       message: '',
       error: ''
-    }
+    };
+    this.db = new Firebase('https://native-messenger.firebaseio.com/messages');
   }
   handleChange(e){
     this.setState({
@@ -30,19 +31,15 @@ class Messenger extends React.Component {
     });
   }
   handleSubmit(){
-    //var db = Firebase... not working.
-    //var db = new Firebase(`https://native-messenger.firebaseio.com/${username}.json`); 
-
     var message = this.state.message;
-    //console.log('state.message: ', this.state.message);
     this.setState({
       message: ''
     });
-    api.addMessage(this.props.userInfo, message)
+    api.addMessageFB(this.props.userInfo, message, this.db)
       .then((data) => {
         api.getMessages(this.props.userInfo)
           .then((data) => {
-            //console.log('in handle submit / data: ', data);
+            // console.log('in handle submit / data: ', data);
             this.setState({
               dataSource: this.ds.cloneWithRows(data)
             })

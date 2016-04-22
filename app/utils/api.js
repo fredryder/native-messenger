@@ -24,16 +24,23 @@ var api = {
       }),
     }).then((res) => res.json()); 
   },
-  // Not working...
-  addMessageFB(username, message) {
-    console.log('in addMessageFB / message: ', message);
+  addMessageFB(username, message, db) {
     username = username.toLowerCase().trim();
-    //var db = new Firebase(`https://native-messenger.firebaseio.com/${username}.json`); 
-    db.set({
+    return db.push({
       username: username,
       message: message
     });
+    console.log('addMessageFB / db: ', db);
   }
+  // getMessagesFB(username, message) {
+  //   username = username.toLowerCase().trim();
+  //   var db = new Firebase('https://native-messenger.firebaseio.com/items'); 
+  //   return db.push({
+  //     username: username,
+  //     message: message
+  //   });
+  //   console.log('addMessageFB / db: ', db);
+  // }
 
 };
 
