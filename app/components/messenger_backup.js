@@ -11,47 +11,55 @@ var {
   TouchableHighlight
 } = React;
 
-
 class Messenger extends React.Component {
   constructor(props) {
     super(props)
-    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2}); // true/false
-    console.log('props.messages: ', this.props.messages);
+    console.log('in Messenger');
+    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    
+    // TODO: figure out multiple messages -> insert into db
+
     this.state = {
       dataSource: this.ds.cloneWithRows(this.props.messages),
-      message: '',
+      note: '',
       error: ''
     }
   }
-  handleChange(e){
+  handleChange(event){
     this.setState({
       message: e.nativeEvent.text
     });
   }
   handleSubmit(){
     var message = this.state.message;
-    console.log('state.message: ', this.state.message);
     this.setState({
-      message: ''
+      note: ''
     });
-    api.addMessage(this.props.userInfo, message)
+    api.addMessage(this.props.userInfo.login, message)
       .then((data) => {
-        api.getMessages(this.props.userInfo)
+        api.getMessages(this.props.userInfo.login)
           .then((data) => {
-            console.log('in handle submit / data: ', data);
             this.setState({
               dataSource: this.ds.cloneWithRows(data)
             })
-          });
-      })
-      .catch((err) => {
+          })
+      }).catch((err) => {
         console.log('Request failed', err);
         this.setState({error}) //same as {error: error} - ES6 thing
       });
   }
+  renderRow(rowdata){
+    return (
+      <View>
+        <View style={styles.rowContainer}>
+          <Text> {rowData} </Text>
+        </View>
+      </View>
+    )
+  }
   footer(){
     return (
-      <View style={styles.footerContainer}>
+      <View style={styles.footContainer}>
         <TextInput
           style={styles.searchInput}
           value={this.state.message}
@@ -60,7 +68,7 @@ class Messenger extends React.Component {
         <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
-          underlayColor="white">
+          underlayColor="#88D4F5">
             <Text style={styles.buttonText}> Submit </Text>
         </TouchableHighlight>
       </View>
@@ -68,13 +76,11 @@ class Messenger extends React.Component {
   }
   render(){
     return (
-      <View style={styles.mainContainer}>
-        <View style={styles.container}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text style={styles.messageText}>{rowData}</Text>} />
-          {this.footer()}
-        </View>
+      <View style={styles.container}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow} />
+        {this.footer()}
       </View>
     )
   }
@@ -82,7 +88,7 @@ class Messenger extends React.Component {
 
 Messenger.propTypes = {
   userInfo: React.PropTypes.string.isRequired,
-  messages: React.PropTypes.object.isRequired
+  messages: React.PropTypes.string.isRequired
 };
 
 module.exports = Messenger;

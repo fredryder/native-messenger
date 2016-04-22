@@ -11,7 +11,7 @@ var screenHeight = Dimensions.get("window").height;
 module.exports = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
   },
   welcome: {
     fontSize: 20,
@@ -178,8 +178,14 @@ module.exports = StyleSheet.create({
     padding: 10,
   },
   footerContainer: {
-    backgroundColor: '#E3E3E3',
     alignItems: 'center',
-    flexDirection: 'row'
-  }
+    flexDirection: 'column'
+  },
+  messageText: {
+    marginTop: 5,
+    fontSize: 20,
+    alignSelf: 'auto',
+    fontFamily: 'Raleway-Light',
+    color: 'white'
+  },
 });

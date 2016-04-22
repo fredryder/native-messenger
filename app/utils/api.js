@@ -1,7 +1,6 @@
 var api = {
   getMessages(username) {
     username = username.toLowerCase().trim();
-    console.log('username: ', username);
     var url = `https://native-messenger.firebaseio.com/${username}.json`;
     console.log(url);
     return fetch(url)
@@ -13,6 +12,7 @@ var api = {
       });
   },
   addMessage(username, message){
+    console.log('in addMessage / message: ', message);
     username = username.toLowerCase().trim();
     var url = `https://native-messenger.firebaseio.com/${username}.json`;
     return fetch(url, {
