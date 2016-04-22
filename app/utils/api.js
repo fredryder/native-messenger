@@ -6,14 +6,11 @@ var api = {
     console.log(url);
     return fetch(url)
       .then((res) => {
-        //res.json()
-        console.log(res);
-        debugger;
+        return res.json()
+      })
+      .then((actualResponse) => {
+        return actualResponse;
       });
-      // .then((actualResponse) => {
-      //   console.log('ActualResponse: ', actualResponse);
-      //   res.json();
-      // });
   },
   addMessage(username, message){
     username = username.toLowerCase().trim();

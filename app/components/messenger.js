@@ -1,6 +1,6 @@
 var React = require('react-native');
 var styles = require('./styles');
-var api = require('../utils/api')
+var api = require('../utils/api');
 
 var {
   Text,
@@ -12,14 +12,13 @@ var {
 } = React;
 
 class Messenger extends React.Component {
-  constructor() {
+  constructor(props) {
+    super(props)
+    this.ds = newListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
-      super(props)
-      this.ds = newListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-      this.state = {
-        dataSource: this.ds.cloneWithRows(this.props.messages),
-        note: '',
-        error: ''
+      dataSource: this.ds.cloneWithRows(this.props.messages),
+      note: '',
+      error: ''
       }
     }
     handleChange(event){

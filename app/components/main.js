@@ -29,32 +29,22 @@ class Main extends React.Component{
     this.setState({
       isLoading: true // spinner
     });
-    //console.log('Chat button / username:', this.state.username);
-    // fetch data from Firebase
-    // reroute us, passing in Firebase message data
-
     api.getMessages(this.state.username)
-    .then((res) => {
-      //if user not found...
-      //for now: if no data returned
-      if (!res) {
-        this.setState({
-          error: 'No data returned from Firebase',
-          isLoading: false
-        })
-      } else {
-        console.log('Firebase response:', res);
-        this.props.navigator.push({
-          title: 'Messages',
-          component: Messenger,
-          passProps: { userInfo: res }
-        })
-        this.setState({
-          isLoading: false,
-          error: false,
-          username: ''
-        })
-      }
+    .then((jsonRes) => {
+      jsonRes = jsonRes || {};
+      this.props.navigator.push({
+        component: Messenger,
+        title: Messenger,
+        passProps: {
+          messages: jsonRes,
+          userInfo: this.state.username
+        }
+      });
+      // this.setState({
+      //   isLoading: false,
+      //   error: false,
+      //   username: ''
+      // })
     });
   }
   render(){
