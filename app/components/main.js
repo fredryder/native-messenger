@@ -1,6 +1,7 @@
 var React = require('react-native');
 var styles = require('./styles');
 var api = require('../utils/api');
+var Messenger = require('./messenger');
 
 var {
   View,
@@ -32,9 +33,11 @@ class Main extends React.Component{
     api.getMessages(this.state.username)
     .then((jsonRes) => {
       jsonRes = jsonRes || {};
+      console.log('jsonRes: ', jsonRes);
+      console.log('this.state.username: ', this.state.username);
       this.props.navigator.push({
+        title: 'Chat',
         component: Messenger,
-        title: Messenger,
         passProps: {
           messages: jsonRes,
           userInfo: this.state.username
