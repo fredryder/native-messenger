@@ -22,24 +22,25 @@ class Messenger extends React.Component {
       //message: '',
       error: ''
     };
-    console.log('in constructor');
     this.db = new Firebase('https://native-messenger.firebaseio.com/messages');
   }
   listenForMessages(db) {
-    console.log('In listenForMessages');
     db.on('value', (snap) => {
+      
       var messages = [];
       snap.forEach((child) => {
         console.log('child.val().message: ', child.val().message);
         messages.push({
-          title: child.val().message,
+          message: child.val().message,
           _key: child.key()
         });
       });
+      console.log('in listenForMessages / messages ', messages);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(messages)
       });
     });
+    console.log('in listenForMessages / dataSource: ', this.state.dataSource);
   }
   componentDidMount() {
     this.listenForMessages(this.db);
@@ -107,7 +108,7 @@ class Messenger extends React.Component {
         <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text style={styles.messageText}>{rowData}</Text>}
+            renderRow={(rowData) => <Text style={styles.messageText}>{rowData.message}</Text>}
             enableEmptySections={true} />
           {this.footer()}
         </View>
