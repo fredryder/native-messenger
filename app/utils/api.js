@@ -1,14 +1,14 @@
 var api = {
   getMessages(username) {
     username = username.toLowerCase().trim();
-    var url = `https://native-messenger.firebaseio.com/${username}.json`;
-    console.log(url);
+    var url = 'https://native-messenger.firebaseio.com/messages.json';
+    //console.log(url);
     return fetch(url)
       .then((response) => {
-        return response.text()
+        return response.text();
       })
       .then((responseText) => {
-        console.log(JSON.parse(responseText));
+        console.log(responseText);
         return responseText;
       });
   },
@@ -32,9 +32,8 @@ var api = {
     });
     console.log('addMessageFB / db: ', db);
   }
-  // getMessagesFB(username, message) {
+  // getMessagesFB(username, message, db) {
   //   username = username.toLowerCase().trim();
-  //   var db = new Firebase('https://native-messenger.firebaseio.com/items'); 
   //   return db.push({
   //     username: username,
   //     message: message

@@ -2,7 +2,7 @@ var React = require('react-native');
 var styles = require('./styles');
 var api = require('../utils/api');
 var Messenger = require('./messenger');
-var Firebase = require("firebase");
+var Firebase = require('firebase');
 
 var {
   View,
@@ -27,27 +27,41 @@ class Main extends React.Component{
       username: event.nativeEvent.text
     });
   }
+  // handleSubmit(){
+  //   this.setState({
+  //     isLoading: true // spinner not loaded yet
+  //   });
+  //   api.getMessages(this.state.username)
+  //   .then((jsonRes) => {
+  //     jsonRes = jsonRes || {};
+  //     this.props.navigator.push({
+  //       title: 'Chat',
+  //       component: Messenger,
+  //       passProps: {
+  //         messages: jsonRes,
+  //         userInfo: this.state.username
+  //       }
+  //     });
+  //     this.setState({
+  //       isLoading: false,
+  //       error: false,
+  //       username: ''
+  //     })
+  //   });
+  // }
   handleSubmit(){
-    this.setState({
-      isLoading: true // spinner
+    this.props.navigator.push({
+      title: 'Chat',
+      component: Messenger,
+      passProps: {
+        userInfo: this.state.username
+      }
     });
-    api.getMessages(this.state.username)
-    .then((jsonRes) => {
-      jsonRes = jsonRes || {};
-      this.props.navigator.push({
-        title: 'Chat',
-        component: Messenger,
-        passProps: {
-          messages: jsonRes,
-          userInfo: this.state.username
-        }
-      });
-      // this.setState({
-      //   isLoading: false,
-      //   error: false,
-      //   username: ''
-      // })
-    });
+    // this.setState({
+    //   isLoading: false,
+    //   error: false,
+    //   username: ''
+    // });
   }
   render(){
     return (
