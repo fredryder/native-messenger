@@ -57,11 +57,11 @@ class Main extends React.Component{
         userInfo: this.state.username
       }
     });
-    // this.setState({
-    //   isLoading: false,
-    //   error: false,
-    //   username: ''
-    // });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: ''
+    });
   }
   render(){
     return (

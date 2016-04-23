@@ -1,4 +1,5 @@
 var api = {
+  // Working, but not in use
   getMessages(username) {
     username = username.toLowerCase().trim();
     var url = 'https://native-messenger.firebaseio.com/messages.json';
@@ -12,7 +13,8 @@ var api = {
         return responseText;
       });
   },
-  addMessage(username, message){
+  // Working, but not in use
+  addMessageOLD(username, message){
     console.log('in addMessage / message: ', message);
     username = username.toLowerCase().trim();
     var url = `https://native-messenger.firebaseio.com/${username}.json`;
@@ -24,7 +26,7 @@ var api = {
       }),
     }).then((res) => res.json()); 
   },
-  addMessageFB(username, message, db) {
+  addMessage(username, message, db) {
     username = username.toLowerCase().trim();
     return db.push({
       username: username,

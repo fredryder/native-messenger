@@ -23,24 +23,22 @@ class Messenger extends React.Component {
       error: ''
     };
     this.db = new Firebase('https://native-messenger.firebaseio.com/messages');
+    console.log('userInfo: ', this.props.userInfo);
   }
   listenForMessages(db) {
     db.on('value', (snap) => {
-      
       var messages = [];
       snap.forEach((child) => {
-        console.log('child.val().message: ', child.val().message);
         messages.push({
+          username: child.val().username,
           message: child.val().message,
           _key: child.key()
         });
       });
-      console.log('in listenForMessages / messages ', messages);
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(messages)
       });
     });
-    console.log('in listenForMessages / dataSource: ', this.state.dataSource);
   }
   componentDidMount() {
     this.listenForMessages(this.db);
@@ -75,10 +73,9 @@ class Messenger extends React.Component {
     this.setState({
       message: ''
     });
-    api.addMessageFB(this.props.userInfo, message, this.db)
-      .then((data) => {
-        console.log('in handleSubmit: ', data);
-      })
+    api.addMessage(this.props.userInfo, message, this.db)
+      // .then((data) => {
+      // })
       .catch((err) => {
         console.log('Request failed', err);
         this.setState({error}) //same as {error: error} - ES6 thing
@@ -101,6 +98,17 @@ class Messenger extends React.Component {
         </TouchableHighlight>
       </View>
     )
+  }
+  messageViewer(rowData) {
+    if (rowData.username === userInfo) {
+      return (
+        <Text style={styles.messageTextLeft}>{rowData.message}</Text>
+      )
+    } else {
+      return (
+        <Text style={styles.messageTextRight}>{rowData.message}</Text>
+      )
+    }
   }
   render(){
     return (
