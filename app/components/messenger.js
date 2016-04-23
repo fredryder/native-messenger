@@ -100,7 +100,7 @@ class Messenger extends React.Component {
     )
   }
   messageViewer(rowData) {
-    if (rowData.username === userInfo) {
+    if (rowData.username === this.props.userInfo.toLowerCase()) {
       return (
         <Text style={styles.messageTextLeft}>{rowData.message}</Text>
       )
@@ -116,7 +116,7 @@ class Messenger extends React.Component {
         <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={(rowData) => <Text style={styles.messageText}>{rowData.message}</Text>}
+            renderRow={(rowData) => this.messageViewer(rowData)}
             enableEmptySections={true} />
           {this.footer()}
         </View>
